@@ -236,7 +236,7 @@
 </html>
 ```
 
-```html
+```js
 const thumbs = document.querySelectorAll(".thumb");
 
 thumbs.forEach((thumb) => {
@@ -264,7 +264,7 @@ thumbs.forEach((thumb) => {
 });
 ```
 
-```html
+```js
 const thumb1 = document.getElementById("thumb1");
 const thumb2 = document.getElementById("thumb2");
 const thumb3 = document.getElementById("thumb3");
