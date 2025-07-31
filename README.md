@@ -1,4 +1,5 @@
-# 🧪 Profile Creator | Labs
+# 🧪 Profile Creator | Labs 
+(https://innersage.xyz/lab-based-guess-web/)
 
 A responsive, interactive form that allows users to input their details, check eligibility for a subscription discount, and view their profile dynamically. Includes live JavaScript feedback, background customization via thumbnails, and a modern UI using plain HTML, CSS, and JavaScript.
 
