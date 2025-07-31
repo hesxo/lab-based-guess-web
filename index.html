@@ -1,40 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ✅ Task 1: HTML Setup - Required Meta and Title -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile Creator</title>
   <style>
-    /* ✅ Task 2.1: Style the whole document */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #eef1f4;
+      background: #fffbea;
+      color: #333;
       padding: 30px;
     }
 
-    /* ✅ Task 2.2: Style the container */
-    .main-wrapper {
-      background: #fff;
-      max-width: 850px;
+    .layout {
+      display: flex;
+      gap: 30px;
+      max-width: 1200px;
       margin: auto;
+      flex-wrap: wrap;
+    }
+
+    .main-wrapper {
+      flex: 2;
+      background: #ffffff;
       padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      min-width: 0;
+      flex-grow: 1;
+      max-width: 650px;
+      margin: auto;
     }
 
-    /* Header content styling */
+    header {
+      background: #fff4b8;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 0 4px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
     header p {
-      font-style: italic;
-      margin-bottom: 15px;
+      font-style: normal;
+      font-size: 0.95rem;
     }
 
-    /* Fieldset for form layout */
+    .debug-guide {
+      flex: 1;
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-radius: 12px;
+      padding: 20px;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      min-width: 250px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .debug-guide h3 {
+      color: #dcdcaa;
+      margin-bottom: 10px;
+      font-family: monospace;
+    }
+
+    #guideBox {
+      background: #252526;
+      border: 1px solid #3c3c3c;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #d4d4d4;
+    }
+
+    #guideBox p {
+      margin: 4px 0;
+      padding-left: 15px;
+      position: relative;
+    }
+
+    #guideBox p::before {
+      content: ">";
+      position: absolute;
+      left: 0;
+      color: #6a9955;
+    }
+
+    @keyframes fadeInLog {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    #guideBox p.log-entry {
+      animation: fadeInLog 0.3s ease-out;
+    }
+
+    .clear-btn {
+      margin-top: 10px;
+      padding: 6px 12px;
+      border: none;
+      background: #3c3c3c;
+      color: #d4d4d4;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: monospace;
+    }
+
+    .collapsible {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-radius: 6px;
+      margin: 8px 0 12px;
+    }
+
+    .collapsible summary {
+      cursor: pointer;
+      padding: 6px;
+      color: #9cdcfe;
+    }
+
+    .collapsible pre {
+      padding: 10px;
+      margin: 0;
+      color: #d4d4d4;
+      white-space: pre-wrap;
+    }
+
     fieldset {
       border: 2px solid #ccc;
       padding: 20px;
       border-radius: 10px;
       transition: background-color 0.3s ease;
+      background-color: #fff;
     }
 
     legend {
@@ -42,111 +156,242 @@
       font-size: 1.1rem;
     }
 
-    /* Form labels */
     .profile-form label {
       display: block;
       margin-top: 15px;
     }
 
-    /* ✅ Task 3: Feedback styling for age eligibility */
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      box-sizing: border-box;
+    }
+
     #ageFeedback {
       margin: 5px 0 10px;
       font-weight: bold;
       border-bottom: 2px solid transparent;
     }
 
-    /* ✅ Task 4: Profile display card */
     .result-profile {
       margin-top: 25px;
       padding: 15px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 12px;
       background: #fafafa;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      text-align: center;
     }
 
-    /* ✅ Task 5: Background pattern thumbnails */
+    .result-profile h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .result-profile img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 10px auto;
+    }
+
+    .customizer {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .customizer p {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
     .thumbs {
       display: flex;
-      margin-top: 15px;
+      justify-content: center;
+      gap: 15px;
     }
 
     .thumb {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      margin-right: 12px;
       cursor: pointer;
       border: 2px solid transparent;
+      background-size: cover;
+      background-position: center;
     }
 
     .thumb.selected {
-      border: 2px solid green; /* ✅ Highlight selected pattern */
+      border: 2px solid #007acc;
+    }
+
+    /* Mobile improvements */
+    @media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+
+  .debug-guide {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-height: 60%;
+    height: auto;
+    overflow-y: auto;
+    border-radius: 12px 12px 0 0;
+    z-index: 999;
+    transform: translateY(100%);
+  }
+
+  .debug-guide.expanded {
+    transform: translateY(0);
+  }
+
+  .clear-btn {
+    align-self: center;
+    margin: 8px auto;
+  }
+
+  #debugToggle {
+    display: block !important;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px); /* Full width minus padding */
+    max-width: 360px;          /* Prevents it from becoming too wide */
+    background: #1e1e1e;
+    color: #dcdcaa;
+    border: 1px solid #3c3c3c;
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-family: monospace;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+    text-align: center;
+  }
+
+  #guideBox {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+  }
+}
+
+    /* Debug toggle button */
+    #debugToggle {
+      display: none;
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: #1e1e1e;
+      color: #dcdcaa;
+      border: 1px solid #3c3c3c;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-family: monospace;
+      border-radius: 8px;
+      z-index: 1000;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <!-- ✅ Task 1: Main centered layout -->
-  <main class="main-wrapper">
-    <!-- ✅ Header with student info -->
-    <header>
-      <h1>Profile Creator</h1>
-      <p><strong>Student Full Name</strong><br>Student ID: W2142567<br>The course you study</p>
-    </header>
+  <!-- Toggle button for debug panel (mobile) -->
+  <button id="debugToggle">Console</button>
 
-    <!-- ✅ Profile form section -->
-    <form class="profile-form">
-      <fieldset id="formFieldset">
-        <legend>User Details</legend>
+  <div class="layout">
+    <main class="main-wrapper">
+      <header>
+        <h1>Profile Creator</h1>
+        <p><strong>Thevindu W.</strong><br>Student ID: W2151910<br>BSc. Computer Science</p>
+      </header>
 
-        <!-- ✅ Preset name -->
-        <label>User Name:
-          <input type="text" id="username" value="Oliver Brown" />
-        </label>
+      <form class="profile-form">
+        <fieldset id="formFieldset">
+          <legend>User Details</legend>
 
-        <!-- ✅ Age input and feedback -->
-        <label>Age:
-          <input type="number" id="ageInput" placeholder="Enter an age above 10" />
-        </label>
-        <div id="ageFeedback">Eligibility message will appear here</div>
+          <label>User Name:
+            <input type="text" id="username" value="Oliver Brown" />
+          </label>
 
-        <!-- ✅ Study type -->
-        <label>Study Status:
-          <select id="studyType">
-            <option value="FT UG student">FT UG student</option>
-            <option value="PT PG student">PT PG student</option>
-          </select>
-        </label>
+          <label>Age:
+            <input type="number" id="ageInput" placeholder="Enter an age above 10" />
+          </label>
+          <div id="ageFeedback">Eligibility message will appear here</div>
 
-        <!-- ✅ Subscription choices -->
-        <label><input type="radio" name="membership" value="annual" /> Standard £5.99 per month - Annual membership apply 20% Discount</label>
-        <label><input type="radio" name="membership" value="monthly" checked /> Without Discount</label>
+          <label>Study Status:
+            <select id="studyType">
+              <option value="FT UG student">FT UG student</option>
+              <option value="PT PG student">PT PG student</option>
+            </select>
+          </label>
 
-        <!-- ✅ Submit Button -->
-        <button type="button" id="submitBtn">Submit Profile</button>
-      </fieldset>
-    </form>
+          <label><input type="radio" name="membership" value="annual" /> Annual membership - 20% Discount</label>
+          <label><input type="radio" name="membership" value="monthly" checked /> Monthly - No Discount</label>
 
-    <!-- ✅ Profile Result Card -->
-    <section class="result-profile">
-      <h2>Your Profile</h2>
-      <p><strong id="resName">[Your Name]</strong></p>
-      <p>Study: <span id="resStudy">[Study Status]</span></p>
-      <p>Subscription: <span id="resSub">[Your Subscription Choice]</span></p>
-    </section>
+          <button type="button" id="submitBtn">Submit Profile</button>
+        </fieldset>
+      </form>
 
-    <!-- ✅ Bonus: Background Pattern Selection -->
-    <section class="customizer">
-      <p>Change the Background Pattern</p>
-      <div class="thumbs">
-        <div class="thumb" id="thumb1" style="background-image: url('images/pattern1.jpg');"></div>
-        <div class="thumb" id="thumb2" style="background-image: url('images/pattern2.jpg');"></div>
-        <div class="thumb" id="thumb3" style="background-image: url('images/pattern3.jpg');"></div>
+      <section class="result-profile">
+        <h2>Your Profile</h2>
+        <img src="images/avatar.jpg" alt="Avatar" />
+        <p><strong id="resName">[Your Name]</strong></p>
+        <p>Study: <span id="resStudy">[Study Status]</span></p>
+        <p>Subscription: <span id="resSub">[Your Subscription Choice]</span></p>
+      </section>
+
+      <section class="customizer">
+        <p>Change the Background Pattern</p>
+        <div class="thumbs">
+          <div class="thumb" id="thumb1" style="background-image: url('images/pattern1.jpg');"></div>
+          <div class="thumb" id="thumb2" style="background-image: url('images/pattern2.jpg');"></div>
+          <div class="thumb" id="thumb3" style="background-image: url('images/pattern3.jpg');"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="debug-guide" id="debugPanel">
+      <h3>Console</h3>
+      <div id="guideBox">
+        <p>Logs will appear here as you interact</p>
       </div>
-    </section>
-  </main>
+      <button class="clear-btn" onclick="clearLogs()">Clear Logs</button>
+    </aside>
+  </div>
 
-  <!-- ✅ Task 3: JavaScript logic -->
   <script>
+    function logStep(message, codeSnippet = null) {
+      const guideBox = document.getElementById("guideBox");
+      const step = document.createElement("p");
+      step.classList.add("log-entry");
+      step.textContent = message;
+      guideBox.appendChild(step);
+      if (codeSnippet) {
+        const details = document.createElement("details");
+        details.className = "collapsible";
+        const summary = document.createElement("summary");
+        summary.textContent = "View Function Code";
+        const pre = document.createElement("pre");
+        pre.textContent = codeSnippet;
+        details.appendChild(summary);
+        details.appendChild(pre);
+        guideBox.appendChild(details);
+      }
+      guideBox.scrollTop = guideBox.scrollHeight;
+    }
+
+    function clearLogs() {
+      const guideBox = document.getElementById("guideBox");
+      guideBox.innerHTML = "<p>Logs cleared. Start interacting...</p>";
+    }
+
     const username = document.getElementById("username");
     const ageInput = document.getElementById("ageInput");
     const studyType = document.getElementById("studyType");
@@ -160,50 +405,66 @@
     const submitBtn = document.getElementById("submitBtn");
     const formFieldset = document.getElementById("formFieldset");
 
+    const thumb1 = document.getElementById("thumb1");
+    const thumb2 = document.getElementById("thumb2");
+    const thumb3 = document.getElementById("thumb3");
+
     let selectedMembership = "monthly";
 
-    // ✅ Task 3.1: Live feedback on age eligibility
     function validateEligibility() {
       const age = parseInt(ageInput.value);
-
       membershipRadios.forEach(radio => {
         if (radio.checked) selectedMembership = radio.value;
       });
 
+      logStep(`Age entered: ${ageInput.value}`);
+      logStep(`Membership selected: ${selectedMembership}`,
+`function validateEligibility() {
+  const age = parseInt(ageInput.value);
+  membershipRadios.forEach(radio => {
+    if (radio.checked) selectedMembership = radio.value;
+  });
+  // ...eligibility logic
+}`);
+
       if (selectedMembership === "annual") {
         if (!isNaN(age)) {
           if (age >= 18) {
-            feedback.textContent = "✔ You are eligible for discount";
+            feedback.textContent = "You are eligible for discount";
             feedback.style.color = "green";
             feedback.style.borderColor = "green";
+            logStep("Eligible for discount (Annual + Age ≥ 18)");
           } else {
-            feedback.textContent = "✘ You are not eligible for discount";
+            feedback.textContent = "Not eligible for discount";
             feedback.style.color = "red";
             feedback.style.borderColor = "red";
+            logStep("Not eligible (Annual + Age < 18)");
           }
         } else {
           feedback.textContent = "Please enter a valid age";
           feedback.style.color = "orange";
           feedback.style.borderColor = "orange";
+          logStep("Invalid age entered");
         }
       } else {
-        feedback.textContent = "Standard subscription selected";
-        feedback.style.color = "orange";
-        feedback.style.borderColor = "orange";
+        feedback.textContent = "Standard monthly subscription selected";
+        feedback.style.color = "#333";
+        feedback.style.borderColor = "#ccc";
+        logStep("Monthly subscription - no discount validation needed");
       }
     }
 
-    // ✅ Task 3.2: Trigger feedback on age or subscription change
     ageInput.addEventListener("input", validateEligibility);
     membershipRadios.forEach(r => r.addEventListener("change", validateEligibility));
 
-    // ✅ Task 3.3: Submit and display the profile
     submitBtn.addEventListener("click", () => {
       const name = username.value;
       const age = parseInt(ageInput.value);
       const study = studyType.value;
-
       let plan = "Standard £5.99 per month";
+
+      logStep("Submitting profile...", `submitBtn.addEventListener(\"click\", () => { ... })`);
+      logStep(`User: ${name}, Age: ${age}, Study: ${study}`);
 
       membershipRadios.forEach(r => {
         if (r.checked && r.value === "annual") {
@@ -218,27 +479,23 @@
       resName.textContent = name;
       resStudy.textContent = study;
       resSub.textContent = plan;
+
+      logStep(`Final Plan: ${plan}`);
     });
 
-    // ✅ Bonus Task: Background selector thumbnails
-    const thumb1 = document.getElementById("thumb1");
-    const thumb2 = document.getElementById("thumb2");
-    const thumb3 = document.getElementById("thumb3");
-
-    // Helper to remove 'selected' class from all
     function clearSelection() {
       thumb1.classList.remove("selected");
       thumb2.classList.remove("selected");
       thumb3.classList.remove("selected");
     }
 
-    // Event listeners
     thumb1.addEventListener("click", () => {
       clearSelection();
       thumb1.classList.add("selected");
       formFieldset.style.backgroundImage = "url('images/pattern1.jpg')";
       formFieldset.style.backgroundRepeat = "repeat";
       formFieldset.style.backgroundSize = "cover";
+      logStep("Pattern 1 selected");
     });
 
     thumb2.addEventListener("click", () => {
@@ -247,6 +504,7 @@
       formFieldset.style.backgroundImage = "url('images/pattern2.jpg')";
       formFieldset.style.backgroundRepeat = "repeat";
       formFieldset.style.backgroundSize = "cover";
+      logStep("Pattern 2 selected");
     });
 
     thumb3.addEventListener("click", () => {
@@ -255,7 +513,24 @@
       formFieldset.style.backgroundImage = "url('images/pattern3.jpg')";
       formFieldset.style.backgroundRepeat = "repeat";
       formFieldset.style.backgroundSize = "cover";
+      logStep("Pattern 3 selected");
     });
+
+    // Toggle debug console (mobile)
+    const debugPanel = document.getElementById("debugPanel");
+    const debugToggle = document.getElementById("debugToggle");
+    let isExpanded = false;
+
+    debugToggle.addEventListener("click", () => {
+      isExpanded = !isExpanded;
+      debugPanel.classList.toggle("expanded", isExpanded);
+      debugPanel.classList.toggle("collapsed", !isExpanded);
+      debugToggle.textContent = isExpanded ? "📉 Hide Debug" : "🪛 Debug";
+    });
+
+    if (window.innerWidth <= 768) {
+      debugPanel.classList.add("collapsed");
+    }
   </script>
 </body>
 </html>
