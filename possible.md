@@ -237,6 +237,7 @@
 ```
 
 ```js
+// ✅ Bonus Task: Background selector thumbnails
 const thumbs = document.querySelectorAll(".thumb");
 
 thumbs.forEach((thumb) => {
@@ -265,6 +266,7 @@ thumbs.forEach((thumb) => {
 ```
 
 ```js
+// ✅ Bonus Task: Background selector thumbnails
 const thumb1 = document.getElementById("thumb1");
 const thumb2 = document.getElementById("thumb2");
 const thumb3 = document.getElementById("thumb3");
