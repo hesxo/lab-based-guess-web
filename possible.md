@@ -235,3 +235,31 @@
 </body>
 </html>
 ```
+
+```html
+const thumbs = document.querySelectorAll(".thumb");
+
+thumbs.forEach((thumb) => {
+  thumb.addEventListener("click", () => {
+    // Remove previous selection
+    thumbs.forEach(t => t.classList.remove("selected"));
+    thumb.classList.add("selected");
+
+    // Determine pattern by ID
+    let bgUrl = "";
+
+    if (thumb.id === "thumb1") {
+      bgUrl = "url('images/pattern1.png')";
+    } else if (thumb.id === "thumb2") {
+      bgUrl = "url('images/pattern2.png')";
+    } else if (thumb.id === "thumb3") {
+      bgUrl = "url('images/pattern3.png')";
+    }
+
+    // Apply background to fieldset
+    formFieldset.style.backgroundImage = bgUrl;
+    formFieldset.style.backgroundRepeat = "repeat";
+    formFieldset.style.backgroundSize = "cover"; // or "auto" or "contain"
+  });
+});
+```
