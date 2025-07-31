@@ -263,3 +263,41 @@ thumbs.forEach((thumb) => {
   });
 });
 ```
+
+```html
+const thumb1 = document.getElementById("thumb1");
+const thumb2 = document.getElementById("thumb2");
+const thumb3 = document.getElementById("thumb3");
+
+// Helper to remove 'selected' class from all
+function clearSelection() {
+  thumb1.classList.remove("selected");
+  thumb2.classList.remove("selected");
+  thumb3.classList.remove("selected");
+}
+
+// Event listeners
+thumb1.addEventListener("click", () => {
+  clearSelection();
+  thumb1.classList.add("selected");
+  formFieldset.style.backgroundImage = "url('images/pattern1.png')";
+  formFieldset.style.backgroundRepeat = "repeat";
+  formFieldset.style.backgroundSize = "cover";
+});
+
+thumb2.addEventListener("click", () => {
+  clearSelection();
+  thumb2.classList.add("selected");
+  formFieldset.style.backgroundImage = "url('images/pattern2.png')";
+  formFieldset.style.backgroundRepeat = "repeat";
+  formFieldset.style.backgroundSize = "cover";
+});
+
+thumb3.addEventListener("click", () => {
+  clearSelection();
+  thumb3.classList.add("selected");
+  formFieldset.style.backgroundImage = "url('images/pattern3.png')";
+  formFieldset.style.backgroundRepeat = "repeat";
+  formFieldset.style.backgroundSize = "cover";
+});
+```
