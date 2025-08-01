@@ -291,7 +291,6 @@ validateEligibility();
     const resName = document.getElementById("resName");
     const resStudy = document.getElementById("resStudy");
     const resSub = document.getElementById("resSub");
-    const profileAvatar = document.getElementById("profileAvatar");
 
     const submitBtn = document.getElementById("submitBtn");
     const formFieldset = document.getElementById("formFieldset");
