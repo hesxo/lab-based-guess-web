@@ -207,3 +207,223 @@ validateEligibility();
 
 > 🎓 This script teaches DOM interaction, event-driven logic, real-time feedback, and basic pricing algorithms — ideal for lab-based or introductory frontend assignments.
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>@thev1ndu/labs</title>
+  <link rel="stylesheet" href="interactive.css">
+</head>
+<body>
+  <main class="main-wrapper">
+    <header>
+      <h1>Profile Creator</h1>
+      <p><strong>Thevindu W.</strong><br>Student ID: W2151910<br>BSc. Computer Science</p>
+    </header>
+
+    <form class="profile-form">
+      <fieldset id="formFieldset">
+        <legend>User Details</legend>
+
+        <label>User Name:
+          <input type="text" id="username" value="Oliver Brown" />
+        </label>
+
+        <label>Age:
+          <input type="number" id="ageInput" placeholder="Enter an age above 10" />
+        </label>
+        <div id="ageFeedback">Eligibility message will appear here</div>
+
+        <label>Study Status:
+          <input type="text" id="studyStatus" value="FT UG student" />
+        </label>
+
+        <label>Subscription Type:
+          <select id="subscriptionType">
+            <option value="standard">Standard £5.99 per month</option>
+            <option value="premium">Premium £9.99 per month</option>
+            <option value="basic">Basic £2.99 per month</option>
+          </select>
+        </label>
+
+        <div class="subscription-options">
+          <label><input type="radio" name="membership" value="annual" /> Annual membership (20% Discount)</label>
+          <label><input type="radio" name="membership" value="monthly" checked /> Monthly membership (No Discount)</label>
+        </div>
+
+        <button type="button" id="submitBtn">Submit Profile</button>
+      </fieldset>
+    </form>
+
+    <section class="result-profile">
+      <h2>Your Profile</h2>
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">ABC</div>
+        <div>
+          <p><strong id="resName">[Your Name]</strong></p>
+          <p>Study: <span id="resStudy">[Study Status]</span></p>
+          <p>Subscription: <span id="resSub">[Your Subscription Choice]</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="customizer">
+      <h3>Customization</h3>
+      <p>Change the Background Pattern</p>
+      <div class="thumbs">
+        <div class="thumb" id="thumb1" style="background-image: url('images/pattern1.jpg');"></div>
+        <div class="thumb" id="thumb2" style="background-image: url('images/pattern2.jpg');"></div>
+        <div class="thumb" id="thumb3" style="background-image: url('images/pattern3.jpg');"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const username = document.getElementById("username");
+    const ageInput = document.getElementById("ageInput");
+    const studyStatus = document.getElementById("studyStatus");
+    const subscriptionType = document.getElementById("subscriptionType");
+    const membershipRadios = document.getElementsByName("membership");
+    const feedback = document.getElementById("ageFeedback");
+
+    const resName = document.getElementById("resName");
+    const resStudy = document.getElementById("resStudy");
+    const resSub = document.getElementById("resSub");
+    const profileAvatar = document.getElementById("profileAvatar");
+
+    const submitBtn = document.getElementById("submitBtn");
+    const formFieldset = document.getElementById("formFieldset");
+
+    let selectedMembership = "monthly";
+
+    // Live feedback on age eligibility
+    function validateEligibility() {
+      const age = parseInt(ageInput.value);
+
+      membershipRadios.forEach(radio => {
+        if (radio.checked) selectedMembership = radio.value;
+      });
+
+      if (selectedMembership === "annual") {
+        if (!isNaN(age)) {
+          if (age >= 18) {
+            feedback.textContent = "✔ You are eligible for discount";
+            feedback.style.color = "white";
+            feedback.style.backgroundColor = "green";
+            feedback.style.borderColor = "green";
+          } else if (age > 10) {
+            feedback.textContent = "✘ You are not eligible for discount";
+            feedback.style.color = "white";
+            feedback.style.backgroundColor = "red";
+            feedback.style.borderColor = "red";
+          } else {
+            feedback.textContent = "Please enter an age above 10";
+            feedback.style.color = "white";
+            feedback.style.backgroundColor = "orange";
+            feedback.style.borderColor = "orange";
+          }
+        } else {
+          feedback.textContent = "Please enter a valid age";
+          feedback.style.color = "white";
+          feedback.style.backgroundColor = "orange";
+          feedback.style.borderColor = "orange";
+        }
+      } else {
+        feedback.textContent = "Standard subscription selected";
+        feedback.style.color = "white";
+        feedback.style.backgroundColor = "#2196F3";
+        feedback.style.borderColor = "#2196F3";
+      }
+    }
+
+    // Trigger feedback on age or subscription change
+    ageInput.addEventListener("input", validateEligibility);
+    membershipRadios.forEach(r => r.addEventListener("change", validateEligibility));
+
+    // Submit and display the profile
+    submitBtn.addEventListener("click", () => {
+      const name = username.value;
+      const age = parseInt(ageInput.value);
+      const study = studyStatus.value;
+      const subType = subscriptionType.value;
+
+      let finalSubscription = "";
+      let basePrice = 0;
+
+      if (subType === "standard") {
+        basePrice = 5.99;
+        finalSubscription = "Standard £5.99 per month";
+      } else if (subType === "premium") {
+        basePrice = 9.99;
+        finalSubscription = "Premium £9.99 per month";
+      } else if (subType === "basic") {
+        basePrice = 2.99;
+        finalSubscription = "Basic £2.99 per month";
+      }
+
+      membershipRadios.forEach(r => {
+        if (r.checked && r.value === "annual") {
+          if (!isNaN(age) && age >= 18) {
+            const discountedPrice = (basePrice * 0.8).toFixed(2);
+            if (subType === "standard") {
+              finalSubscription = "Standard £" + discountedPrice + " per month (after 20% discount)";
+            } else if (subType === "premium") {
+              finalSubscription = "Premium £" + discountedPrice + " per month (after 20% discount)";
+            } else if (subType === "basic") {
+              finalSubscription = "Basic £" + discountedPrice + " per month (after 20% discount)";
+            }
+          } else {
+            finalSubscription = finalSubscription + " (no discount available)";
+          }
+        }
+      });
+
+      resName.textContent = name;
+      resStudy.textContent = study;
+      resSub.textContent = finalSubscription;
+    });
+
+    // Background selector functionality
+    const thumb1 = document.getElementById("thumb1");
+    const thumb2 = document.getElementById("thumb2");
+    const thumb3 = document.getElementById("thumb3");
+    
+    function clearSelection() {
+      thumb1.classList.remove("selected");
+      thumb2.classList.remove("selected");
+      thumb3.classList.remove("selected");
+    }
+
+    // Event listeners
+    thumb1.addEventListener("click", () => {
+      clearSelection();
+      thumb1.classList.add("selected");
+      formFieldset.style.backgroundImage = "url('images/pattern1.jpg')";
+      formFieldset.style.backgroundRepeat = "repeat";
+      formFieldset.style.backgroundSize = "cover";
+    });
+
+    thumb2.addEventListener("click", () => {
+      clearSelection();
+      thumb2.classList.add("selected");
+      formFieldset.style.backgroundImage = "url('images/pattern2.jpg')";
+      formFieldset.style.backgroundRepeat = "repeat";
+      formFieldset.style.backgroundSize = "cover";
+    });
+
+    thumb3.addEventListener("click", () => {
+      clearSelection();
+      thumb3.classList.add("selected");
+      formFieldset.style.backgroundImage = "url('images/pattern3.jpg')";
+      formFieldset.style.backgroundRepeat = "repeat";
+      formFieldset.style.backgroundSize = "cover";
+    });
+
+    // Initialize
+    validateEligibility();
+  </script>
+</body>
+</html>
+```
