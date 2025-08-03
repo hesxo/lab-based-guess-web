@@ -1,5 +1,5 @@
 # 🧪 Profile Creator: JavaScript + HTML Breakdown (with DOM Mapping)
-(https://innersage.xyz/lab-based-guess-web/interactive)
+(https://innersage.xyz/labs/interactive)
 
 This document offers **in-depth, line-by-line explanations** of how the HTML `<script>` section interacts with the page using DOM manipulation, user input, dynamic feedback, and styling.
 
